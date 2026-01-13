@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finding Her - Lyrics</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #111;
+            color: #eee;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h2 { color: #ffd700; margin-bottom: 30px; }
+
+        .lyrics {
+            margin-top: 30px;
+            line-height: 2.5;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            /* Flex column ensures lines stay centered even with fit-content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lyrics::-webkit-scrollbar { display: none; }
+
+        .line {
+            color: #666;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 8px 20px;
+            display: inline-block;
+            width: fit-content;
+            border-radius: 20px;
+        }
+
+        .line:hover {
+            background: linear-gradient(90deg, #e1788a, #bf0c62);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .line.active {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>🎵 Finding Her 🎵</h2>
+
+    <audio id="audio" controls>
+        <source src="songs.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+
+    <div class="lyrics" id="lyrics">
+        <div class="line" data-start="22" data-end="25">Jaana tu aata nahi...</div>
+        <div class="line" data-start="25" data-end="29">Sapno se jaata nahi...</div>
+        <div class="line" data-start="30" data-end="33">Mil jaye kya hi baat thi</div>
+        <div class="line" data-start="34" data-end="38">Kaamil ho jaata wahin...</div>
+        <div class="line" data-start="38" data-end="42">Jaana mere sawalon ka manzar tu...</div>
+        <div class="line" data-start="43" data-end="46">Haan main sookha sa, saara samandar tu...</div>
+        <div class="line" data-start="47" data-end="51">Haan gulabi si surkhi jo dekhti thi..</div>
+        <div class="line" data-start="52" data-end="55">Phir se dikh jaye toh jee bhar ke saah bhar loon ..</div>
+        <div class="line" data-start="56" data-end="58">Kati kitni thi raatein, nahi soya main...</div>
+        <div class="line" data-start="59" data-end="64">Tujhko kitna bulaya, phir roya main...</div>
+        <div class="line" data-start="64" data-end="68">Teri sari woh baate, kyun sone nahi deti.. </div>
+        <div class="line" data-start="69" data-end="72">Sataya mujhe haan phir khoya main..</div>
+        <div class="line" data-start="72" data-end="75">Tu aata nahi....</div>
+        <div class="line" data-start="76" data-end="79">sapno se jata nhi..</div>
+        <div class="line" data-start="80" data-end="84">Mil jaye kya hi baat thi..</div>
+        <div class="line" data-start="84" data-end="88">Kaamil ho jaata wahin...</div>
+        <div class="line" data-start="89" data-end="93">Jo Bhi Ho Raj Tera..</div>
+        <div class="line" data-start="94" data-end="98">Mujhko Batata Nahi...</div>
+        <div class="line" data-start="98" data-end="102">Mil Jaye Kya Hi Baat Thi...</div>
+        <div class="line" data-start="103" data-end="109">Kamil Ho Jata Wahin...</div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const lines = document.querySelectorAll('.line');
+
+        audio.addEventListener('timeupdate', () => {
+            const current = audio.currentTime;
+            let activeFound = false;
+
+            lines.forEach(line => {
+                const start = parseFloat(line.dataset.start);
+                const end = parseFloat(line.dataset.end);
+
+                if (current >= start && current < end) {
+                    line.classList.add('active');
+                    line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    activeFound = true;
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+
+            // If the song is playing but we passed the 'end' of the last line
+            // and no line is currently active, pause the music.
+            const lastLine = lines[lines.length - 1];
+            if (current >= parseFloat(lastLine.dataset.end)) {
+                audio.pause();
+            }
+        });
+
+        lines.forEach(line => {
+            line.addEventListener('click', () => {
+                audio.currentTime = parseFloat(line.dataset.start);
+                audio.play();
+            });
+        });
+    </script>
+</body>
+</html>
