@@ -1,5 +1,5 @@
 # project
-# 🎵 Finding Her - Song Lyrics Player
+# Song Lyrics Player
 
 An interactive web application that synchronizes song lyrics with audio playback.
 
